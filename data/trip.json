@@ -1,0 +1,147 @@
+{
+  "title": "상하이 체험학습",
+  "subtitle": "연변한국국제학교",
+  "notice": "일정이 확정되지 않아 예시로 채워둔 상태입니다. 확정되면 이 파일만 고치면 앱 전체에 반영됩니다.",
+  "access": {
+    "teacherCode": "2026",
+    "adminCode": "9999"
+  },
+  "origin": {
+    "name": "연변한국국제학교",
+    "nameZh": "延边韩国国际学校",
+    "lat": 42.8886,
+    "lng": 129.5137,
+    "verified": false
+  },
+  "places": [
+    {
+      "id": "yanji-airport",
+      "name": "연길 조양천국제공항",
+      "nameZh": "延吉朝阳川国际机场",
+      "addressZh": "吉林省延吉市朝阳川镇",
+      "lat": 42.8828,
+      "lng": 129.4514,
+      "note": "출발 공항. 집합 시각보다 여유 있게 도착"
+    },
+    {
+      "id": "pvg",
+      "name": "상하이 푸동국제공항",
+      "nameZh": "上海浦东国际机场",
+      "addressZh": "上海市浦东新区迎宾大道6000号",
+      "lat": 31.1443,
+      "lng": 121.8083,
+      "note": "도착 공항. 짐 찾는 곳에서 전원 집결"
+    },
+    {
+      "id": "provisional-gov",
+      "name": "대한민국 임시정부 청사",
+      "nameZh": "大韩民国临时政府旧址",
+      "addressZh": "上海市黄浦区马当路306弄4号",
+      "lat": 31.2265,
+      "lng": 121.4718,
+      "note": "골목 안에 있어 찾기 어려움. 입구에서 모여서 함께 이동"
+    },
+    {
+      "id": "luxun-park",
+      "name": "루쉰공원 (윤봉길 의거지·매헌기념관)",
+      "nameZh": "鲁迅公园 (梅园)",
+      "addressZh": "上海市虹口区四川北路2288号",
+      "lat": 31.2707,
+      "lng": 121.4855,
+      "note": "공원이 넓어 흩어지기 쉬움. 집결지를 미리 정할 것"
+    },
+    {
+      "id": "yuyuan",
+      "name": "예원",
+      "nameZh": "豫园",
+      "addressZh": "上海市黄浦区安仁街218号",
+      "lat": 31.2270,
+      "lng": 121.4920,
+      "note": "사람이 매우 많음. 길 잃기 쉬운 1순위 장소"
+    },
+    {
+      "id": "bund",
+      "name": "와이탄",
+      "nameZh": "外滩",
+      "addressZh": "上海市黄浦区中山东一路",
+      "lat": 31.2397,
+      "lng": 121.4900,
+      "note": "야경 명소. 저녁에 인파가 몰림"
+    },
+    {
+      "id": "oriental-pearl",
+      "name": "동방명주",
+      "nameZh": "东方明珠广播电视塔",
+      "addressZh": "上海市浦东新区世纪大道1号",
+      "lat": 31.2397,
+      "lng": 121.4997,
+      "note": ""
+    },
+    {
+      "id": "nanjing-road",
+      "name": "난징동루 보행가",
+      "nameZh": "南京东路步行街",
+      "addressZh": "上海市黄浦区南京东路",
+      "lat": 31.2360,
+      "lng": 121.4750,
+      "note": "자유 활동 구역. 집결 시각 엄수"
+    },
+    {
+      "id": "science-museum",
+      "name": "상하이과학기술관",
+      "nameZh": "上海科技馆",
+      "addressZh": "上海市浦东新区世纪大道2000号",
+      "lat": 31.2233,
+      "lng": 121.5405,
+      "note": ""
+    },
+    {
+      "id": "disney",
+      "name": "상하이 디즈니랜드",
+      "nameZh": "上海迪士尼乐园",
+      "addressZh": "上海市浦东新区川沙新镇黄赵路310号",
+      "lat": 31.1434,
+      "lng": 121.6577,
+      "note": "자유 활동. 집결 링크를 반드시 공유할 것"
+    }
+  ],
+  "schedule": [
+    { "day": 1, "time": "06:30", "title": "학교 집합", "placeId": null, "note": "여권 지참 확인" },
+    { "day": 1, "time": "08:00", "title": "연길 조양천공항 도착", "placeId": "yanji-airport", "note": "" },
+    { "day": 1, "time": "10:30", "title": "상하이로 출발", "placeId": "yanji-airport", "note": "" },
+    { "day": 1, "time": "13:30", "title": "푸동공항 도착", "placeId": "pvg", "note": "짐 찾는 곳 집결" },
+    { "day": 1, "time": "16:00", "title": "대한민국 임시정부 청사", "placeId": "provisional-gov", "note": "" },
+    { "day": 1, "time": "18:30", "title": "저녁 식사 후 숙소 이동", "placeId": null, "note": "" },
+
+    { "day": 2, "time": "09:00", "title": "루쉰공원·윤봉길 의거지", "placeId": "luxun-park", "note": "" },
+    { "day": 2, "time": "11:30", "title": "예원", "placeId": "yuyuan", "note": "" },
+    { "day": 2, "time": "14:00", "title": "난징동루 자유 활동", "placeId": "nanjing-road", "note": "집결 시각 엄수" },
+    { "day": 2, "time": "17:00", "title": "와이탄", "placeId": "bund", "note": "" },
+    { "day": 2, "time": "19:00", "title": "동방명주 야경", "placeId": "oriental-pearl", "note": "" },
+
+    { "day": 3, "time": "09:00", "title": "상하이 디즈니랜드", "placeId": "disney", "note": "자유 활동, 집결 링크 공유" },
+    { "day": 3, "time": "16:00", "title": "정문 앞 집결", "placeId": "disney", "note": "" },
+    { "day": 3, "time": "19:00", "title": "푸동공항 출발", "placeId": "pvg", "note": "" }
+  ],
+  "contacts": [
+    { "label": "인솔 교사 1", "name": "", "phone": "" },
+    { "label": "인솔 교사 2", "name": "", "phone": "" },
+    { "label": "숙소", "name": "", "phone": "" },
+    { "label": "주상하이 대한민국 총영사관", "name": "출발 전 번호 확인 후 입력", "phone": "" }
+  ],
+  "emergency": [
+    { "label": "경찰", "phone": "110" },
+    { "label": "구급차", "phone": "120" },
+    { "label": "소방", "phone": "119" }
+  ],
+  "phrases": [
+    { "ko": "길을 잃었어요", "zh": "我迷路了" },
+    { "ko": "도와주세요", "zh": "请帮帮我" },
+    { "ko": "이 주소로 가주세요", "zh": "请送我去这个地址" },
+    { "ko": "저는 한국인입니다", "zh": "我是韩国人" },
+    { "ko": "선생님께 전화해 주세요", "zh": "请帮我打电话给我的老师" },
+    { "ko": "화장실이 어디예요?", "zh": "洗手间在哪里？" },
+    { "ko": "얼마예요?", "zh": "多少钱？" },
+    { "ko": "한국어나 영어 하시는 분 있나요?", "zh": "有人会说韩语或英语吗？" }
+  ]
+}

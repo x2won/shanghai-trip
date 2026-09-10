@@ -1,0 +1,295 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101728">
+<title>체험학습 안내</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="체험학습">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+
+<header class="appbar">
+  <div class="appbar-text">
+    <div class="appbar-title" id="trip-title">체험학습</div>
+    <div class="appbar-sub"><span id="trip-sub"></span><span class="role-pill hidden" id="role-pill"></span></div>
+  </div>
+  <button id="mode-btn" class="icon-btn" title="교사 모드">
+    <svg viewBox="0 0 24 24"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7" r="3.2"/><path d="M17.5 11.5 19 13l3.2-3.2"/></svg>
+  </button>
+</header>
+
+<div id="banner" class="banner hidden">
+  <span id="banner-text"></span>
+  <button id="banner-action" class="banner-btn"></button>
+  <button id="banner-close" class="banner-x">✕</button>
+</div>
+
+<main>
+  <!-- ══ 집결 ══════════════════════════════════ -->
+  <section class="panel" data-panel="rally">
+    <section class="hero">
+      <div class="hero-head">
+        <span class="chip">집결</span>
+        <div class="hero-name" id="rally-name">집결 장소 없음</div>
+        <div class="hero-at" id="rally-at"></div>
+      </div>
+      <div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="ring-bg" cx="100" cy="100" r="86"/>
+          <circle class="ring-fg" id="ring" cx="100" cy="100" r="86"/>
+        </svg>
+        <div class="ring-center">
+          <div class="cd" id="countdown">--:--</div>
+          <div class="cd-label" id="cd-label">남은 시간</div>
+        </div>
+      </div>
+      <div class="status unknown" id="status">위치 확인 중</div>
+    </section>
+
+    <section class="card notice-card hidden" id="notice-card">
+      <div class="card-head"><h3>선생님 공지</h3><span class="badge" id="notice-time"></span></div>
+      <p class="notice-text" id="notice-text"></p>
+    </section>
+
+    <section class="card nav-card">
+      <div class="nav-main">
+        <div class="compass">
+          <svg id="arrow" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12 L74 84 L50 68 L26 84 Z"/></svg>
+        </div>
+        <div class="nav-meta">
+          <div class="dist" id="distance">—</div>
+          <div class="walk" id="walk">위치를 확인하는 중</div>
+          <div class="dir" id="compass">—</div>
+        </div>
+      </div>
+      <div class="depart hidden" id="depart"></div>
+    </section>
+
+    <section class="card map-card">
+      <div id="map"></div>
+      <button class="map-chip" id="locate-btn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+        내 위치
+      </button>
+      <div class="map-note hidden" id="map-note"></div>
+    </section>
+
+    <button id="share-btn" class="btn primary lg">
+      <svg viewBox="0 0 24 24"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      내 위치 보내기
+    </button>
+    <p class="foot" id="gps-note"></p>
+  </section>
+
+  <!-- ══ 일정 ══════════════════════════════════ -->
+  <section class="panel hidden" data-panel="schedule">
+    <div class="daybar" id="daybar"></div>
+    <div class="rail" id="timeline"></div>
+    <p class="foot" id="schedule-notice"></p>
+  </section>
+
+  <!-- ══ 장소 ══════════════════════════════════ -->
+  <section class="panel hidden" data-panel="places">
+    <p class="hint">장소를 누르면 <b>중국어 주소 카드</b>가 열립니다. 택시 기사에게 그대로 보여주세요.</p>
+    <div id="place-list"></div>
+    <section class="card">
+      <div class="card-head"><h3>지도 미리 받기</h3><span class="badge" id="prefetch-badge">권장</span></div>
+      <p class="small">인터넷이 되는 곳에서 미리 받아두면 현지에서 인터넷이 없어도 지도가 보입니다. <b>출발 전에 꼭 한 번 눌러주세요.</b></p>
+      <div class="progress hidden" id="prefetch-bar"><div id="prefetch-fill"></div></div>
+      <button id="prefetch-btn" class="btn primary">지도 미리 받기</button>
+      <p class="small mt" id="prefetch-status"></p>
+    </section>
+  </section>
+
+  <!-- ══ 비상 ══════════════════════════════════ -->
+  <section class="panel hidden" data-panel="help">
+    <section class="card danger">
+      <div class="card-head"><h3>길을 잃었어요</h3></div>
+      <ol class="steps">
+        <li>그 자리에 <b>멈춰 서세요.</b> 움직이면 더 찾기 어렵습니다.</li>
+        <li>아래 버튼으로 <b>내 위치 링크</b>를 만들어 위챗 단체방에 보내세요.</li>
+        <li>선생님께 전화하세요. 안 되면 주변 사람에게 <b>중국어 카드</b>를 보여주세요.</li>
+      </ol>
+      <button id="sos-share" class="btn danger-btn">내 위치 보내기</button>
+      <button id="sos-card" class="btn ghost mt">중국어 카드 보여주기</button>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h3>연락처</h3></div>
+      <div id="contact-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h3>중국 긴급번호</h3></div>
+      <div id="emergency-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h3>중국어 카드</h3></div>
+      <p class="small">문장을 누르면 크게 표시됩니다.</p>
+      <div id="phrase-list"></div>
+    </section>
+  </section>
+
+  <!-- ══ 교사 ══════════════════════════════════ -->
+  <section class="panel hidden" data-panel="teacher">
+    <div class="seg" id="t-seg">
+      <button data-seg="rally" class="on">집결·공지</button>
+      <button data-seg="check">인원</button>
+      <button data-seg="edit">편집</button>
+    </div>
+
+    <!-- 집결·공지 -->
+    <div data-seg-panel="rally">
+      <section class="card">
+        <div class="card-head"><h3>집결 지정</h3></div>
+        <p class="small">장소와 시각을 정하면 링크가 만들어집니다. 위챗 단체방에 붙여넣으면 학생 앱에 자동 반영됩니다.</p>
+        <label>기준 위치<select id="t-place"><option value="here">지금 내 위치</option></select></label>
+        <div class="two">
+          <label>집결 시각<input id="t-time" type="time"></label>
+          <label>표시 이름<input id="t-name" type="text" placeholder="예: 정문 앞"></label>
+        </div>
+        <div class="quick" id="t-quick"></div>
+        <button id="t-make" class="btn primary">집결 링크 만들기</button>
+        <div id="t-result" class="result hidden">
+          <textarea id="t-link" readonly></textarea>
+          <button id="t-copy" class="btn ghost">링크 복사</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h3>공지 보내기</h3></div>
+        <p class="small">공지 링크를 위챗에 보내면, 학생이 누르는 순간 앱에 공지가 뜨고 알림이 울립니다.</p>
+        <label>공지 내용<input id="n-text" type="text" placeholder="예: 예원 도착. 12시까지 자유 활동"></label>
+        <div class="quick" id="n-quick"></div>
+        <button id="n-make" class="btn primary">공지 링크 만들기</button>
+        <div id="n-result" class="result hidden">
+          <textarea id="n-link" readonly></textarea>
+          <button id="n-copy" class="btn ghost">링크 복사</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- 인원 점검 -->
+    <div data-seg-panel="check" class="hidden">
+      <section class="card">
+        <div class="card-head"><h3>인원 점검</h3><span class="badge" id="roster-count">0 / 0</span></div>
+        <p class="small">확인한 학생을 눌러 체크하세요. 이 기록은 이 기기에만 저장됩니다.</p>
+        <div class="roster-add">
+          <input id="r-name" type="text" placeholder="이름 입력 후 추가">
+          <button id="r-add" class="btn ghost sm">추가</button>
+        </div>
+        <div id="roster"></div>
+        <div class="two mt">
+          <button id="r-reset" class="btn ghost sm">전체 해제</button>
+          <button id="r-paste" class="btn ghost sm">명단 붙여넣기</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- 편집 -->
+    <div data-seg-panel="edit" class="hidden">
+      <section class="card">
+        <div class="card-head"><h3>일정 편집</h3><span class="badge" id="edit-flag">원본</span></div>
+        <p class="small">고치면 바로 저장되고 앱 전체에 반영됩니다.</p>
+        <div id="ed-schedule"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h3>연락처 편집</h3></div>
+        <p class="small">비상 화면에 표시되고, 학생이 눌러 바로 전화할 수 있습니다.</p>
+        <div id="ed-contacts"></div>
+      </section>
+
+      <section class="card hidden" id="card-places">
+        <div class="card-head"><h3>장소 편집</h3><span class="badge">관리자</span></div>
+        <p class="small">현장에서 <b>지금 내 위치로 좌표 채우기</b>를 쓰면 집결 지점을 정확히 잡을 수 있습니다.</p>
+        <div id="ed-places"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h3>계획표 인쇄</h3></div>
+        <p class="small">앱의 일정과 연락처로 종이 계획표를 만듭니다. 폰이 꺼진 학생을 위한 예비용입니다.</p>
+        <button id="print-btn" class="btn ghost">계획표 인쇄 / PDF 저장</button>
+      </section>
+
+      <section class="card hidden" id="card-data">
+        <div class="card-head"><h3>데이터 관리</h3><span class="badge">관리자</span></div>
+        <p class="small">수정한 내용을 내보내 <code>data/trip.json</code>에 붙여넣으면 모두에게 반영됩니다.</p>
+        <div class="two">
+          <button id="d-export" class="btn ghost sm">내보내기</button>
+          <button id="d-import" class="btn ghost sm">불러오기</button>
+        </div>
+        <textarea id="d-text" class="mt" placeholder="내보내기를 누르면 여기에 표시됩니다"></textarea>
+        <button id="d-reset" class="btn ghost sm">원본으로 되돌리기</button>
+      </section>
+
+      <button id="logout-btn" class="btn ghost">교사 모드 끄기</button>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="tab active" data-tab="rally">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="3.2"/><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3"/></svg><span>집결</span>
+  </button>
+  <button class="tab" data-tab="schedule">
+    <svg viewBox="0 0 24 24"><rect x="3.2" y="4.6" width="17.6" height="16" rx="3"/><path d="M3.2 9.6h17.6M8 2.6v4M16 2.6v4"/></svg><span>일정</span>
+  </button>
+  <button class="tab" data-tab="places">
+    <svg viewBox="0 0 24 24"><path d="M12 21.5s7-6.6 7-11.4a7 7 0 1 0-14 0c0 4.8 7 11.4 7 11.4Z"/><circle cx="12" cy="10" r="2.6"/></svg><span>장소</span>
+  </button>
+  <button class="tab" data-tab="help">
+    <svg viewBox="0 0 24 24"><path d="M12 2.6 4 6v6c0 4.6 3.4 8.4 8 9.4 4.6-1 8-4.8 8-9.4V6l-8-3.4Z"/><path d="M12 8.4v4.2M12 16.2h.01"/></svg><span>비상</span>
+  </button>
+  <button class="tab hidden" data-tab="teacher">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="7.6" r="3.4"/><path d="M2.6 20v-1.6A4.4 4.4 0 0 1 7 14h4a4.4 4.4 0 0 1 4.4 4.4V20M17 11.4l1.7 1.7 3.4-3.4"/></svg><span>교사</span>
+  </button>
+</nav>
+
+<!-- 바텀 시트 -->
+<div id="sheet" class="sheet-wrap hidden">
+  <div class="sheet-back"></div>
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div id="sheet-body"></div>
+    <button id="sheet-close" class="btn ghost">닫기</button>
+  </div>
+</div>
+
+<!-- 최초 입장 -->
+<div id="onboard" class="onboard hidden">
+  <div class="onboard-card">
+    <div class="onboard-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 21.5s7-6.6 7-11.4a7 7 0 1 0-14 0c0 4.8 7 11.4 7 11.4Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+    </div>
+    <h2 id="ob-title">체험학습 안내</h2>
+    <p>참가자 정보를 한 번만 입력하면 됩니다.</p>
+    <div class="two">
+      <label>학년<input id="ob-grade" type="text" placeholder="2학년" autocomplete="off"></label>
+      <label>반<input id="ob-class" type="text" placeholder="3반" autocomplete="off"></label>
+    </div>
+    <label>이름<input id="ob-name" type="text" placeholder="이름" autocomplete="off"></label>
+    <button id="ob-save" class="btn primary lg">시작하기</button>
+    <button id="ob-staff" class="linkish">선생님이신가요?</button>
+    <div id="ob-code-box" class="hidden">
+      <label>교사 코드<input id="ob-code" type="password" inputmode="numeric" placeholder="코드 입력"></label>
+      <button id="ob-code-ok" class="btn ghost">확인</button>
+    </div>
+  </div>
+</div>
+
+<div id="print-area"></div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="js/config.js"></script>
+<script src="js/coords.js"></script>
+<script src="js/geo.js"></script>
+<script src="js/rally.js"></script>
+<script src="js/trip.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/mapview.js"></script>
+<script src="js/app.js"></script>
